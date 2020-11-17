@@ -189,6 +189,7 @@ class SlideShow:
         direction=PlayBackDirection.FORWARD,
         h_align=HorizontalAlignment.LEFT,
         v_align=VerticalAlignment.TOP,
+        overtake_display=True,
     ):
         self.loop = loop
         """Specifies whether to loop through the images continuously or play through the list once.
@@ -235,7 +236,8 @@ class SlideShow:
         # Setup the display
         self._group = displayio.Group()
         self._display = display
-        display.show(self._group)
+        if overtake_display:
+            display.show(self._group)
 
         self._backlight_pwm = backlight_pwm
         if not backlight_pwm and fade_effect:
@@ -416,3 +418,8 @@ class SlideShow:
         ):
             raise ValueError("Alignment must be TOP, BOTTOM, or CENTER")
         self._v_align = val
+
+    @property
+    def group(self):
+        """Get the SlideShow displayio Group"""
+        return self._group
